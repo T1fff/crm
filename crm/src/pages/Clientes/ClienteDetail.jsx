@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Spinner, Tab, Tabs } from "@nextui-org/react"
 import ContainerMain from "../components/Container"
 import { FaUser } from "react-icons/fa6"
@@ -9,9 +10,8 @@ import ClientePreferences from "./form/ClientPreferences"
 import ClientHistory from "./ClientHistory"
 import {
   useClientQuery,
-  useClientQueryHistorial,
   useSaveClientAndCredit,
-} from "../../Hooks/useQueryClientes"
+} from "../../hooks/useQueryClientes"
 import { useNavigate, useParams } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
