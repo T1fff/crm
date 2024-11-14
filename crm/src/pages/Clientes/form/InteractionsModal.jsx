@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useSaveHistorial } from "../../../Hooks/useQueryClientes"
+import { useSaveHistorial } from "../../../hooks/useQueryClientes"
 import { useParams } from "react-router-dom"
 
 export const InteractionsModal = ({ isOpen, onOpenChange, refetch }) => {

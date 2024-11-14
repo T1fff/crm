@@ -4,7 +4,7 @@ import { FaPlusCircle } from "react-icons/fa"
 import { RiHistoryLine } from "react-icons/ri"
 import { InteractionsModal } from "./form/InteractionsModal"
 import { useParams } from "react-router-dom"
-import { useClientQueryHistorial } from "../../Hooks/useQueryClientes"
+import { useClientQueryHistorial } from "../../hooks/useQueryClientes"
 
 const ClientHistory = () => {
   const { clientId } = useParams()
