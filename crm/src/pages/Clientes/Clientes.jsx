@@ -98,7 +98,30 @@ export default function Clientes() {
     new Set(INITIAL_VISIBLE_COLUMNS)
   )
   const [statusFilter, setStatusFilter] = React.useState("all")
-  const [rowsPerPage] = React.useState(14)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  useEffect(() => {
+    // Define una función para actualizar rowsPerPage según el tamaño de la ventana
+    const updateRowsPerPage = () => {
+      if (window.innerHeight > 900 && window.innerHeight < 1200) {
+        setRowsPerPage(14) // Cambia a 20 si el height es mayor a 900
+      } else if (window.innerHeight > 1200) {
+        setRowsPerPage(20) // Cambia a 20 si el height es mayor a 900
+      } else {
+        setRowsPerPage(10) // De lo contrario, se mantiene en 10
+      }
+    }
+
+    // Llama a la función la primera vez que se carga el componente
+    updateRowsPerPage()
+
+    // Agrega un event listener para actualizar en caso de que la ventana cambie de tamaño
+    window.addEventListener("resize", updateRowsPerPage)
+
+    // Limpia el event listener al desmontar el componente
+    return () => {
+      window.removeEventListener("resize", updateRowsPerPage)
+    }
+  }, [])
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
@@ -208,7 +231,7 @@ export default function Clientes() {
           </div>
         )
       default:
-        return cellValue
+        return cellValue || <p className="text-gray-300 text-xs">-Sin asignar-</p>
     }
   })
 

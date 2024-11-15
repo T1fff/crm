@@ -18,7 +18,7 @@ export const InteractionsModal = ({ isOpen, onOpenChange, refetch }) => {
   const { register, handleSubmit, reset } = useForm()
   const userId = JSON.parse(localStorage.getItem("user"))?.user?.id
   const { mutate } = useSaveHistorial()
-
+console.log(refetch);
   const onSubmit = (formData) => {
     const historialData = {
       ...formData,

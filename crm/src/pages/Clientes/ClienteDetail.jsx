@@ -10,6 +10,7 @@ import ClientePreferences from "./form/ClientPreferences"
 import ClientHistory from "./ClientHistory"
 import {
   useClientQuery,
+  useClientQueryHistorial,
   useSaveClientAndCredit,
 } from "../../hooks/useQueryClientes"
 import { useNavigate, useParams } from "react-router-dom"
@@ -23,6 +24,7 @@ const ClienteDetail = () => {
   const navigate = useNavigate()
   const { clientId } = useParams()
   const { data, isLoading } = useClientQuery(clientId)
+  const { refetch } = useClientQueryHistorial(clientId)
 
   const [isSaving, setIsSaving] = useState(false)
   const { register, reset, handleSubmit, control } = useForm({
