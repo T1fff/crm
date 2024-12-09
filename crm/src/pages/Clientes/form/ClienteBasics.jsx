@@ -60,7 +60,7 @@ function ClienteBasics({ register, control }) {
                 color="secondary"
                 isSelected={field.value}
               >
-                Aplicar a subsidio
+                Aplica a subsidio
               </Switch>
             )}
           />
