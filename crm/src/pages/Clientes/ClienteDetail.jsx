@@ -50,14 +50,12 @@ const ClienteDetail = () => {
 
   const {
     data: options,
-    isLoading: isLoadingCategories,
-    error: errorCategories,
   } = useParametersByCategories({ categories })
 
   useEffect(() => {
     if (data) {
-      const defaultValues = mapResponseToDefaultValues(data?.client) // Transforma la respuesta
-      reset(defaultValues) // Resetea el formulario
+      const defaultValues = mapResponseToDefaultValues(data?.client) 
+      reset(defaultValues)
     }
   }, [data, reset])
 

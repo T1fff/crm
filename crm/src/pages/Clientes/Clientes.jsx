@@ -20,10 +20,15 @@ import { FaChevronCircleDown, FaEye, FaPlus, FaSearch } from "react-icons/fa"
 import ContainerMain from "../components/Container"
 import { useNavigate } from "react-router-dom"
 import { FaUsers } from "react-icons/fa6"
-import { useClientsQuery } from "../../hooks/useQueryClientes"
+import {
+  useClientsQuery,
+  useDownloadClientsQuery,
+} from "../../hooks/useQueryClientes"
 import { Bounce, toast, ToastContainer } from "react-toastify"
 import { DropdownCustom } from "../components/DropdownCustom"
 import { useParametersByCategories } from "../../hooks/useQueryParams"
+import { saveAs } from "file-saver"
+import XLSX from "xlsx"
 
 const statusColorMap = {
   active: "success",
@@ -251,6 +256,7 @@ export default function Clientes() {
                 ))}
               </DropdownMenu>
             </Dropdown>
+            <DownloadButton />
             <Button
               className="bg-purple-900 text-background"
               onClick={() => navigate("/crear_cliente")}
@@ -403,5 +409,39 @@ export default function Clientes() {
           transition: Bounce,
         })}
     </ContainerMain>
+  )
+}
+
+const DownloadButton = () => {
+  const { data, isLoading, isError } = useDownloadClientsQuery()
+
+  const handleDownload = () => {
+    if (data) {
+      const worksheet = XLSX.utils.json_to_sheet(data)
+      const workbook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1")
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      })
+      const blob = new Blob([excelBuffer], { type: "application/octet-stream" })
+      saveAs(blob, `clientes.xlsx`)
+    }
+  }
+
+  return (
+    <div>
+      <Button
+        variant="bordered"
+        size="sm"
+        type="button"
+        color="secondary"
+        onClick={handleDownload}
+        disabled={isLoading}
+      >
+        {isLoading ? "Descargando..." : "Descargar CSV"}
+      </Button>
+      {isError && <p>Error al descargar el archivo.</p>}
+    </div>
   )
 }

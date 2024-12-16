@@ -15,7 +15,6 @@ export const getClients = async () => {
 }
 
 export const fetchClientById = async (clientId) => {
-  // Hacer la primera consulta para obtener los datos del cliente
   const { data: clientData, error: clientError } = await supabase
     .from("clientes_completo")
     .select("*")
@@ -30,10 +29,24 @@ export const fetchClientById = async (clientId) => {
     throw new Error("Client not found")
   }
 
-  console.log(clientData);
+  console.log(clientData)
 
   return {
     client: clientData,
+  }
+}
+
+export const fetchClientsCSV = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("clientes_completo")
+      .select("*")
+    if (error) throw error
+    const blob = new Blob([data], { type: "text/csv" })
+    return blob
+  } catch (error) {
+    console.error("Error fetching client overview data:", error.message)
+    throw error
   }
 }
 

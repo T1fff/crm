@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import {
   fetchClientById,
   fetchClientHistory,
+  fetchClientsCSV,
   getClients,
   saveClient,
   saveCredit,
@@ -23,19 +24,30 @@ export const useClientsQuery = () => {
   })
 }
 
+export const useDownloadClientsQuery = () => {
+  const { isAuthenticated } = useAuthStore()
+  return useQuery({
+    queryKey: ["clientscsv"],
+    queryFn: fetchClientsCSV,
+    enabled: isAuthenticated,
+  })
+}
+
 export const useClientQuery = (clientId) => {
+  const { isAuthenticated } = useAuthStore()
   return useQuery({
     queryKey: ["client", clientId],
     queryFn: () => fetchClientById(clientId),
-    enabled: !!clientId,
+    enabled: !!clientId && isAuthenticated,
   })
 }
 
 export const useClientQueryHistorial = (clientId) => {
+  const { isAuthenticated } = useAuthStore()
   return useQuery({
     queryKey: ["clientHistory", clientId],
     queryFn: () => fetchClientHistory(clientId),
-    enabled: !!clientId,
+    enabled: !!clientId && isAuthenticated,
   })
 }
 
@@ -68,13 +80,10 @@ export const useSaveHistorial = () => {
         throw new Error("El campo cliente_id es obligatorio para el historial.")
       }
 
-      // Llama al servicio saveHistorial con los datos del historial y el cliente_id
       return await saveHistorial(historialData, historialData.cliente_id)
     },
     onError: (error) => {
       console.error("Error al guardar el historial:", error)
-    },
-    onSuccess: (data) => {
     },
   })
 
