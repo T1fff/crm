@@ -41,6 +41,7 @@ export const fetchClientsCSV = async () => {
     const { data, error } = await supabase
       .from("clientes_completo")
       .select("*")
+      .csv()  
     if (error) throw error
     const blob = new Blob([data], { type: "text/csv" })
     return blob

@@ -27,8 +27,6 @@ import {
 import { Bounce, toast, ToastContainer } from "react-toastify"
 import { DropdownCustom } from "../components/DropdownCustom"
 import { useParametersByCategories } from "../../hooks/useQueryParams"
-import { saveAs } from "file-saver"
-import XLSX from "xlsx"
 
 const statusColorMap = {
   active: "success",
@@ -257,6 +255,7 @@ export default function Clientes() {
               </DropdownMenu>
             </Dropdown>
             <DownloadButton />
+
             <Button
               className="bg-purple-900 text-background"
               onClick={() => navigate("/crear_cliente")}
@@ -417,15 +416,21 @@ const DownloadButton = () => {
 
   const handleDownload = () => {
     if (data) {
-      const worksheet = XLSX.utils.json_to_sheet(data)
-      const workbook = XLSX.utils.book_new()
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1")
-      const excelBuffer = XLSX.write(workbook, {
-        bookType: "xlsx",
-        type: "array",
-      })
-      const blob = new Blob([excelBuffer], { type: "application/octet-stream" })
-      saveAs(blob, `clientes.xlsx`)
+      // Crear un objeto URL para el Blob
+      const url = window.URL.createObjectURL(data)
+
+      // Crear un enlace temporal para descargar el archivo
+      const link = document.createElement("a")
+      link.href = url
+      link.setAttribute("download", "clientes.csv") // Nombre del archivo
+      document.body.appendChild(link)
+
+      // Simular un clic para iniciar la descarga
+      link.click()
+
+      // Limpiar: eliminar el enlace y revocar el URL creado
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url) // Revoke el URL para liberar memoria
     }
   }
 
