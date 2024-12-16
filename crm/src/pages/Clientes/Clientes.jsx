@@ -412,23 +412,20 @@ export default function Clientes() {
 }
 
 const DownloadButton = () => {
+
   const { data, isLoading, isError } = useDownloadClientsQuery()
 
   const handleDownload = () => {
     if (data) {
-      // Crear un objeto URL para el Blob
       const url = window.URL.createObjectURL(data)
 
-      // Crear un enlace temporal para descargar el archivo
       const link = document.createElement("a")
       link.href = url
       link.setAttribute("download", "clientes.csv") // Nombre del archivo
       document.body.appendChild(link)
 
-      // Simular un clic para iniciar la descarga
       link.click()
 
-      // Limpiar: eliminar el enlace y revocar el URL creado
       document.body.removeChild(link)
       window.URL.revokeObjectURL(url) // Revoke el URL para liberar memoria
     }
@@ -444,7 +441,7 @@ const DownloadButton = () => {
         onClick={handleDownload}
         disabled={isLoading}
       >
-        {isLoading ? "Descargando..." : "Descargar CSV"}
+        {"Descargar CSV"}
       </Button>
       {isError && <p>Error al descargar el archivo.</p>}
     </div>
