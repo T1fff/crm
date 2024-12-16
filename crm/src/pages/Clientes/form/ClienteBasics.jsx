@@ -3,7 +3,7 @@ import { Input, Switch } from "@nextui-org/react"
 import { SelectCustom } from "../../components/SelectCustom"
 import { Controller } from "react-hook-form"
 
-function ClienteBasics({ register, control }) {
+function ClienteBasics({ register, control, options }) {
   return (
     <div className="my-4 flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4 min-h-[550px] ">
@@ -18,7 +18,7 @@ function ClienteBasics({ register, control }) {
           <SelectCustom
             title="Tipo documento"
             formvalue="CLIENTS.document_type_id"
-            category="document_type"
+            data={options?.document_type}
             control={control}
             register={register}
           />
@@ -46,7 +46,7 @@ function ClienteBasics({ register, control }) {
           <SelectCustom
             title="Grupo especial"
             formvalue="CLIENTS.minority_id"
-            category="minority"
+            data={options?.minority}
             control={control}
             register={register}
           />
@@ -87,14 +87,14 @@ function ClienteBasics({ register, control }) {
           <SelectCustom
             title="Género"
             formvalue="CLIENTS.gender_id"
-            category="gender"
+            data={options?.gender}
             register={register}
             control={control}
           />
           <SelectCustom
             title="Estado civil"
             formvalue="CLIENTS.marital_status_id"
-            category="marital_status"
+            data={options?.marital_status}
             register={register}
             control={control}
           />

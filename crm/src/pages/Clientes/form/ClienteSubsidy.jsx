@@ -3,7 +3,7 @@ import { cn, Radio, RadioGroup } from "@nextui-org/react"
 import { Controller } from "react-hook-form"
 import { SelectCustom } from "../../components/SelectCustom"
 
-function ClienteSubsidy({ register, control }) {
+function ClienteSubsidy({ register, control, options }) {
   const resultado = "Aprobado"
   const apply = control._formValues.viabilidad.apply_subsidy
   return apply ? (
@@ -14,7 +14,7 @@ function ClienteSubsidy({ register, control }) {
             <SelectCustom
               title="Tipo de contrato"
               formvalue="viabilidad.subsidy_type_id"
-              category="subsidy_type"
+              data={options?.subsidy_type}
               control={control}
               register={register}
             />
@@ -22,7 +22,6 @@ function ClienteSubsidy({ register, control }) {
             <Controller
               name="viabilidad.concurrent_subsidy"
               control={control}
-             
               render={({ field }) => (
                 <RadioGroup
                   label="Subsidio concurrente"
@@ -51,7 +50,6 @@ function ClienteSubsidy({ register, control }) {
             <Controller
               name="viabilidad.vivienda"
               control={control}
-             
               render={({ field }) => (
                 <RadioGroup
                   label="Vivienda propia"
@@ -73,7 +71,6 @@ function ClienteSubsidy({ register, control }) {
             <Controller
               name="viabilidad.reports"
               control={control}
-             
               render={({ field }) => (
                 <RadioGroup
                   label="Reportes negativos"
@@ -97,7 +94,6 @@ function ClienteSubsidy({ register, control }) {
             <Controller
               name="viabilidad.approved_credit"
               control={control}
-             
               render={({ field }) => (
                 <RadioGroup
                   label="Crédito aprobado"
@@ -119,7 +115,7 @@ function ClienteSubsidy({ register, control }) {
             <SelectCustom
               title="SISBEN"
               formvalue="viabilidad.sisben_id"
-              category="sisben_group"
+              data={options?.sisben_group}
               control={control}
               register={register}
             />

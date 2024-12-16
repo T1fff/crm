@@ -7,10 +7,8 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react"
 import { FaChevronCircleDown } from "react-icons/fa"
-import { useParametersByCategory } from "../../hooks/useQueryParams"
 
-export const DropdownCustom = ({ title, category, value, onChange }) => {
-  const { data} = useParametersByCategory(category)
+export const DropdownCustom = ({ title, value, onChange, data }) => {
   return (
     <Dropdown>
       <DropdownTrigger className="hidden sm:flex">

@@ -23,6 +23,7 @@ import { FaUsers } from "react-icons/fa6"
 import { useClientsQuery } from "../../hooks/useQueryClientes"
 import { Bounce, toast, ToastContainer } from "react-toastify"
 import { DropdownCustom } from "../components/DropdownCustom"
+import { useParametersByCategories } from "../../hooks/useQueryParams"
 
 const statusColorMap = {
   active: "success",
@@ -51,42 +52,16 @@ const columns = [
   { name: "", uid: "actions" },
 ]
 
-const statusOptions = [
-  {
-    id: 12,
-    param_type: "process_status",
-    param_value: "PRIMERCONTACTO",
-    description: "Primer contacto",
-  },
-  {
-    id: 13,
-    param_type: "process_status",
-    param_value: "ESPERADESISBEN",
-    description: "Espera de Sisben",
-  },
-  {
-    id: 14,
-    param_type: "process_status",
-    param_value: "ESPERADEBANCO",
-    description: "Espera de banco",
-  },
-  {
-    id: 15,
-    param_type: "process_status",
-    param_value: "ESPERADECONSULTOR",
-    description: "Espera de consultor",
-  },
-  {
-    id: 16,
-    param_type: "process_status",
-    param_value: "FALTAINFORMACION",
-    description: "Falta de información",
-  },
-]
-
 export default function Clientes() {
   const navigate = useNavigate()
   const { data: clients, isLoading, error, refetch } = useClientsQuery()
+  const categories = ["process_status"]
+
+  const {
+    data: statusOptions,
+    isLoading: isLoadingCategories,
+    error: errorCategories,
+  } = useParametersByCategories({ categories })
 
   useEffect(() => {
     refetch()
@@ -99,29 +74,7 @@ export default function Clientes() {
   )
   const [statusFilter, setStatusFilter] = React.useState("all")
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  useEffect(() => {
-    // Define una función para actualizar rowsPerPage según el tamaño de la ventana
-    const updateRowsPerPage = () => {
-      if (window.innerHeight > 900 && window.innerHeight < 1200) {
-        setRowsPerPage(14) // Cambia a 20 si el height es mayor a 900
-      } else if (window.innerHeight > 1200) {
-        setRowsPerPage(20) // Cambia a 20 si el height es mayor a 900
-      } else {
-        setRowsPerPage(10) // De lo contrario, se mantiene en 10
-      }
-    }
 
-    // Llama a la función la primera vez que se carga el componente
-    updateRowsPerPage()
-
-    // Agrega un event listener para actualizar en caso de que la ventana cambie de tamaño
-    window.addEventListener("resize", updateRowsPerPage)
-
-    // Limpia el event listener al desmontar el componente
-    return () => {
-      window.removeEventListener("resize", updateRowsPerPage)
-    }
-  }, [])
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
@@ -231,7 +184,9 @@ export default function Clientes() {
           </div>
         )
       default:
-        return cellValue || <p className="text-gray-300 text-xs">-Sin asignar-</p>
+        return (
+          cellValue || <p className="text-gray-300 text-xs">-Sin asignar-</p>
+        )
     }
   })
 
@@ -266,7 +221,7 @@ export default function Clientes() {
           <div className="flex gap-3">
             <DropdownCustom
               title={"Estado"}
-              category={"process_status"}
+              data={statusOptions?.process_status}
               value={statusFilter}
               onChange={setStatusFilter}
             />

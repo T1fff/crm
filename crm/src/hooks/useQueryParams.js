@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { fetchParametersByCategory } from "../services/ParamsService"
+import { fetchParametersByCategories, fetchParametersByCategory } from "../services/ParamsService"
 
 export const useParametersByCategory = (category) => {
   return useQuery({
@@ -10,4 +10,13 @@ export const useParametersByCategory = (category) => {
   })
 }
 
+
+export const useParametersByCategories = ({ categories, options = {} }) => {
+  return useQuery({
+    queryKey: ["parametersByCategories", categories],
+    queryFn: () => fetchParametersByCategories(categories),
+    enabled: !!categories?.length, 
+    ...options,
+  })
+}
 

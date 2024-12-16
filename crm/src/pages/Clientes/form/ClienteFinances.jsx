@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
-import { cn, Input, Radio, RadioGroup } from "@nextui-org/react"
+import { Input } from "@nextui-org/react"
 import { SelectCustom } from "../../components/SelectCustom"
-import { Controller } from "react-hook-form"
 import { RadioCustom } from "../../components/RadioCustom"
 
-function ClienteFinances({ register, control }) {
+function ClienteFinances({ register, control, options }) {
   return (
     <div className="my-4 flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-4 min-h-[550px] ">
@@ -12,7 +11,7 @@ function ClienteFinances({ register, control }) {
           <SelectCustom
             title="Ocupación"
             formvalue="financiera.occupation_id"
-            category="occupation"
+            data={options?.occupation}
             control={control}
             register={register}
           />
@@ -20,7 +19,7 @@ function ClienteFinances({ register, control }) {
           <SelectCustom
             title="Tipo de contrato"
             formvalue="financiera.contract_type_id"
-            category="contract_type"
+            data={options?.contract_type}
             control={control}
             register={register}
           />
@@ -35,7 +34,7 @@ function ClienteFinances({ register, control }) {
           <SelectCustom
             title="Nivel de educación"
             formvalue="financiera.education_level_id"
-            category="education_level"
+            data={options?.education_level}
             control={control}
             register={register}
           />

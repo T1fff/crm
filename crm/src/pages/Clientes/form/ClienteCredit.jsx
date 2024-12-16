@@ -2,7 +2,7 @@
 import { Input } from "@nextui-org/react"
 import { SelectCustom } from "../../components/SelectCustom"
 
-function ClienteCredit({ register, control }) {
+function ClienteCredit({ register, control, options }) {
 
   return (
     <div className="my-4 flex flex-col gap-4">
@@ -11,14 +11,14 @@ function ClienteCredit({ register, control }) {
           <SelectCustom
             title="Tipo crédito"
             formvalue="credito.credit_type_id"
-            category="credit_type"
+            data={options?.credit_type}
             register={register}
             control={control}
           />
           <SelectCustom
             title="Estado del crédito"
             formvalue="credito.credit_status_id"
-            category="credit_status"
+            data={options?.credit_status}
             register={register}
             control={control}
           />

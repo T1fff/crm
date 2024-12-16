@@ -19,6 +19,7 @@ import { useEffect, useState } from "react"
 import { FaArrowLeft } from "react-icons/fa"
 import { Bounce, toast, ToastContainer } from "react-toastify"
 import { SelectCustom } from "../components/SelectCustom"
+import { useParametersByCategories } from "../../hooks/useQueryParams"
 
 const ClienteDetail = () => {
   const navigate = useNavigate()
@@ -76,6 +77,26 @@ const ClienteDetail = () => {
   })
 
   const { mutate, error, isSuccess } = useSaveClientAndCredit()
+  const categories = [
+    "process_status",
+    "document_type",
+    "minority",
+    "gender",
+    "marital_status",
+    "credit_type",
+    "credit_status",
+    "occupation",
+    "contract_type",
+    "education_level",
+    "bank",
+    "subsidy_type",
+  ]
+
+  const {
+    data: options,
+    isLoading: isLoadingCategories,
+    error: errorCategories,
+  } = useParametersByCategories({ categories })
 
   useEffect(() => {
     if (data) {
@@ -104,7 +125,7 @@ const ClienteDetail = () => {
         marital_status_id: null,
         email: null,
         address: null,
-        process_status_id: 12,
+        process_status_id: "12",
         minority_id: null,
       },
       financiera: {
@@ -217,7 +238,7 @@ const ClienteDetail = () => {
             <SelectCustom
               title="Estado"
               formvalue="CLIENTS.process_status_id"
-              category="process_status"
+              data={options?.process_status}
               className={"w-1/4 text-xs"}
               size={"sm"}
               variant={"bordered"}
@@ -265,19 +286,39 @@ const ClienteDetail = () => {
                 }
               >
                 <Tab key="basica" title="Información Básica">
-                  <ClienteBasics register={register} control={control} />
+                  <ClienteBasics
+                    register={register}
+                    control={control}
+                    options={options}
+                  />
                 </Tab>
                 <Tab key="financiera" title="Financiera">
-                  <ClienteFinances register={register} control={control} />
+                  <ClienteFinances
+                    register={register}
+                    control={control}
+                    options={options}
+                  />
                 </Tab>
                 <Tab key="subsidio" title="Subsidio">
-                  <ClienteSubsidy register={register} control={control} />
+                  <ClienteSubsidy
+                    register={register}
+                    control={control}
+                    options={options}
+                  />
                 </Tab>
                 <Tab key="credito" title="Crédito">
-                  <ClienteCredit register={register} control={control} />
+                  <ClienteCredit
+                    register={register}
+                    control={control}
+                    options={options}
+                  />
                 </Tab>
                 <Tab key="vivienda" title="Vivienda">
-                  <ClientePreferences register={register} control={control} />
+                  <ClientePreferences
+                    register={register}
+                    control={control}
+                    options={options}
+                  />
                 </Tab>
               </Tabs>
               <div className="flex justify-between w-100 ">
