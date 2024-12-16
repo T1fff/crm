@@ -29,51 +29,7 @@ const ClienteDetail = () => {
 
   const [isSaving, setIsSaving] = useState(false)
   const { register, reset, handleSubmit, control } = useForm({
-    defaultValues: {
-      CLIENTS: {
-        ...data?.client,
-        name: null,
-        document_type_id: null,
-        phone: null,
-        residency: null,
-        in_charge: null,
-        date_birth: null,
-        document_number: null,
-        gender_id: null,
-        marital_status_id: null,
-        email: null,
-        address: null,
-        process_status_id: 12,
-        minority_id: null,
-      },
-      financiera: {
-        occupation_id: null,
-        contract_type_id: null,
-        monthly_expenses: null,
-        education_level_id: null,
-        years_working: null,
-        monthly_income: null,
-        savings: null,
-        banked: null,
-      },
-      credito: {
-        credit_type_id: null,
-        credit_status_id: null,
-        loan_amount: null,
-        bank: null,
-      },
-      viabilidad: {
-        apply_subsidy: null,
-        concurrent_subsidy: null,
-        reports: null,
-        vivienda: null,
-        sisben_id: null,
-        subsidy_type_id: null,
-        approved_credit: null,
-      },
-
-      vivienda: data?.vivienda || {},
-    },
+    defaultValues: mapResponseToDefaultValues(data?.client || {}),
   })
 
   const { mutate, error, isSuccess } = useSaveClientAndCredit()
@@ -100,13 +56,8 @@ const ClienteDetail = () => {
 
   useEffect(() => {
     if (data) {
-      reset({
-        CLIENTS: data?.client,
-        financiera: data?.financiera,
-        viabilidad: data?.viabilidad,
-        vivienda: data?.vivienda,
-        credito: data?.credit,
-      })
+      const defaultValues = mapResponseToDefaultValues(data?.client) // Transforma la respuesta
+      reset(defaultValues) // Resetea el formulario
     }
   }, [data, reset])
 
@@ -349,6 +300,52 @@ const ClienteDetail = () => {
       </ContainerMain>
     </>
   )
+}
+
+const mapResponseToDefaultValues = (response) => {
+  return {
+    CLIENTS: {
+      name: response.name || null,
+      document_type_id: response.document_type_id || null,
+      phone: response.phone || null,
+      residency: response.residency || null,
+      in_charge: response.in_charge || null,
+      date_birth: response.date_birth || null,
+      document_number: response.document_number || null,
+      gender_id: response.gender_id || null,
+      marital_status_id: response.marital_status_id || null,
+      email: null, // Campo no presente en el response
+      address: response.address || null,
+      process_status_id: response.process_status_id || 12, // Valor predeterminado
+      minority_id: response.minority_id || null,
+    },
+    financiera: {
+      occupation_id: response.occupation_id || null,
+      contract_type_id: response.contract_type_id || null,
+      monthly_expenses: response.monthly_expenses || null,
+      education_level_id: response.education_level_id || null,
+      years_working: response.years_working || null,
+      monthly_income: response.monthly_income || null,
+      savings: response.savings || null,
+      banked: response.banked || null,
+    },
+    credito: {
+      credit_type_id: response.credit_type_id || null,
+      credit_status_id: response.credit_status_id || null,
+      loan_amount: response.loan_amount || null,
+      bank: response.bank || null,
+    },
+    viabilidad: {
+      apply_subsidy: response.apply_subsidy || null,
+      concurrent_subsidy: response.concurrent_subsidy || null,
+      reports: response.reports || null,
+      vivienda: response.vivienda || null,
+      sisben_id: response.sisben_id || null,
+      subsidy_type_id: response.subsidy_type_id || null,
+      approved_credit: response.approved_credit || null,
+    },
+    vivienda: response.vivienda || {},
+  }
 }
 
 export default ClienteDetail

@@ -17,9 +17,9 @@ export const getClients = async () => {
 export const fetchClientById = async (clientId) => {
   // Hacer la primera consulta para obtener los datos del cliente
   const { data: clientData, error: clientError } = await supabase
-    .from("CLIENTS")
+    .from("clientes_completo")
     .select("*")
-    .eq("id", clientId)
+    .eq("cliente_id", clientId)
     .single()
 
   if (clientError) {
@@ -30,42 +30,10 @@ export const fetchClientById = async (clientId) => {
     throw new Error("Client not found")
   }
 
-  // Hacer las consultas separadas para crédito, financiero y viabilidad
-  const { data: creditData, error: creditError } = await supabase
-    .from("CREDITO")
-    .select("*")
-    .eq("cliente_id", clientId)
-    .maybeSingle()
-
-  if (creditError) {
-    throw new Error(creditError.message)
-  }
-
-  const { data: financieraData, error: financieraError } = await supabase
-    .from("FINANCIERO")
-    .select("*")
-    .eq("cliente_id", clientId)
-    .maybeSingle()
-
-  if (financieraError) {
-    throw new Error(financieraError.message)
-  }
-
-  const { data: viabilidadData, error: viabilidadError } = await supabase
-    .from("VIABILIDAD")
-    .select("*")
-    .eq("cliente_id", clientId)
-    .maybeSingle()
-
-  if (viabilidadError) {
-    throw new Error(viabilidadError.message)
-  }
+  console.log(clientData);
 
   return {
     client: clientData,
-    credit: creditData,
-    financiera: financieraData,
-    viabilidad: viabilidadData,
   }
 }
 
