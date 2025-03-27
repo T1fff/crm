@@ -56,6 +56,7 @@ const ClienteDetail = () => {
   useEffect(() => {
     if (data) {
       const defaultValues = mapResponseToDefaultValues(data?.client) 
+      console.log(data?.client, "defaultValues")
       reset(defaultValues)
     }
   }, [data, reset])
@@ -63,7 +64,7 @@ const ClienteDetail = () => {
   const onSubmit = (formData) => {
     const defaultValues = {
       CLIENTS: {
-        ...data?.client,
+        id: null,
         name: null,
         document_type_id: null,
         phone: null,
@@ -304,6 +305,7 @@ const ClienteDetail = () => {
 const mapResponseToDefaultValues = (response) => {
   return {
     CLIENTS: {
+      id: response.cliente_id || null,
       name: response.name || null,
       document_type_id: response.document_type_id || null,
       phone: response.phone || null,

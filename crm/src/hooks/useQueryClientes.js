@@ -54,6 +54,7 @@ export const useClientQueryHistorial = (clientId) => {
 export const useSaveClientAndCredit = () => {
   const mutation = useMutation({
     mutationFn: async ({ CLIENTS, credito, financiera, viabilidad }) => {
+      console.log(CLIENTS, 'servicio');
       try {
         const clientId = await saveClient(CLIENTS)
         if (CLIENTS.id) {
