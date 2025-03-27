@@ -12,7 +12,7 @@ const SidebarContext = createContext()
 const Nav = () => {
   const expanded = useNavStore((sts) => sts.expanded)
   const setExpanded = useNavStore((sts) => sts.setExpanded)
-  const user = useAuthStore(sts => sts.user.user)
+  const user = useAuthStore((sts) => sts.user.user)
   const { signOut } = useAuth()
 
   const handleToggle = () => {
@@ -20,7 +20,7 @@ const Nav = () => {
   }
 
   return (
-    <aside className="h-screen">
+    <aside className="h-screen  z-[50]">
       <nav
         className={`h-full ${
           expanded && "w-52"
@@ -66,7 +66,9 @@ const Nav = () => {
           >
             <div className="leading-4">
               <h4 className="font-semibold">Usuario</h4>
-              <span className="text-xs text-gray-600">{user?.email || "USUARIO"}</span>
+              <span className="text-xs text-gray-600">
+                {user?.email || "USUARIO"}
+              </span>
             </div>
             {expanded && (
               <Button onClick={signOut} isIconOnly className="bg-transparent">
@@ -88,7 +90,7 @@ export const SidebarItem = ({ icon, text, to, alert, active }) => {
     <li
       className={`
         relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer
-        transition-colors group
+        transition-colors group z-[50]
         ${
           active
             ? "bg-gradient-to-tr from-purple-200 to-purple-100 text-purple-800"
@@ -136,7 +138,7 @@ export const SidebarItem = ({ icon, text, to, alert, active }) => {
             absolute left-full rounded-md px-2 py-1 ml-6
             bg-purple-100 text-purple-800 text-sm
             invisible opacity-20 -translate-x-3 transition-all
-            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-50
+            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0 z-[50]
           `}
         >
           {text}

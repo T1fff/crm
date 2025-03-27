@@ -11,9 +11,9 @@ function ContainerMain({
   otherDiv,
 }) {
   return (
-    <div className={`w-100 h-screen flex ${specialStyles}`}>
+    <div className={`w-100 h-screen flex ${specialStyles} `}>
       <Nav />
-      <Card className="w-full  m-10 gap-4">
+      <Card className="w-full  m-10 gap-4 z-[10]">
         <div className="flex w-full">
           <div className="flex flex-col w-full p-10">
             <div className="flex justify-between mb-2">
