@@ -30,6 +30,12 @@ export const InteractionsModal = ({ isOpen, onOpenChange, refetch }) => {
     mutate(historialData, {
       onSuccess: () => {
         refetch()
+        reset({
+          accion: null,
+          cliente_id: clientId,
+          usuario_responsable: userId,
+          fecha: new Date().toISOString(),
+        })
       },
       onError: (error) => {
         console.error("Error al guardar el historial:", error.message)
