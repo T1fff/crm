@@ -15,39 +15,39 @@ import {
 import useAuthStore from "../authStore"
 
 export const useClientsQuery = () => {
-  const { isAuthenticated } = useAuthStore()
+  const { user } = useAuthStore()
   return useQuery({
     queryKey: ["clients"],
     queryFn: getClients,
     staleTime: 5 * 60 * 1000,
-    enabled: isAuthenticated,
+    enabled: user !== null,
   })
 }
 
 export const useDownloadClientsQuery = () => {
-  const { isAuthenticated } = useAuthStore()
+  const { user } = useAuthStore()
   return useQuery({
     queryKey: ["clientscsv"],
     queryFn: fetchClientsCSV,
-    enabled: isAuthenticated,
+    enabled: user !== null,
   })
 }
 
 export const useClientQuery = (clientId) => {
-  const { isAuthenticated } = useAuthStore()
+  const { user } = useAuthStore()
   return useQuery({
     queryKey: ["client", clientId],
     queryFn: () => fetchClientById(clientId),
-    enabled: !!clientId && isAuthenticated,
+    enabled: !!clientId && user !== null,
   })
 }
 
 export const useClientQueryHistorial = (clientId) => {
-  const { isAuthenticated } = useAuthStore()
+  const { user } = useAuthStore()
   return useQuery({
     queryKey: ["clientHistory", clientId],
     queryFn: () => fetchClientHistory(clientId),
-    enabled: !!clientId && isAuthenticated,
+    enabled: !!clientId && user !== null,
   })
 }
 

@@ -3,28 +3,17 @@ import { Button } from "@nextui-org/react"
 
 import { FaBars, FaHome, FaUsers } from "react-icons/fa"
 import { FaArrowRightFromBracket, FaX } from "react-icons/fa6"
-import { NavLink, useNavigate } from "react-router-dom"
-import { supabase } from "../../supabaseCliente"
-import useAuthStore from "../../authStore"
+import { NavLink } from "react-router-dom"
 import { createContext, useContext } from "react"
 import useNavStore from "../../stores/navStore"
+import { useAuth } from "../../AuthProvider"
+import useAuthStore from "../../authStore"
 const SidebarContext = createContext()
 const Nav = () => {
   const expanded = useNavStore((sts) => sts.expanded)
   const setExpanded = useNavStore((sts) => sts.setExpanded)
-  const navigate = useNavigate()
-  const setAuthData = useAuthStore((state) => state.setAuthData)
-  const userId = JSON.parse(localStorage.getItem("user"))?.user?.email
-
-  async function signOut() {
-    const { error } = await supabase.auth.signOut()
-    if (error) {
-      console.log("Error logging out:", error.message)
-    } else {
-      setAuthData(null)
-      navigate("/")
-    }
-  }
+  const user = useAuthStore(sts => sts.user.user)
+  const { signOut } = useAuth()
 
   const handleToggle = () => {
     setExpanded(!expanded) // Alterna el estado de expansión
@@ -77,7 +66,7 @@ const Nav = () => {
           >
             <div className="leading-4">
               <h4 className="font-semibold">Usuario</h4>
-              <span className="text-xs text-gray-600">{userId}</span>
+              <span className="text-xs text-gray-600">{user?.email || "USUARIO"}</span>
             </div>
             {expanded && (
               <Button onClick={signOut} isIconOnly className="bg-transparent">

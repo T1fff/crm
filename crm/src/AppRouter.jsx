@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Routes, Route, Navigate } from "react-router-dom"
 import Auth from "./pages/Auth"
 import Dashboard from "./pages/Dashboard"
@@ -6,8 +7,13 @@ import ClienteDetail from "./pages/Clientes/ClienteDetail"
 import useAuthStore from "./authStore"
 
 const PrivateRoute = ({ children }) => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  return isAuthenticated ? children : <Navigate to="/" />
+  const { user, loading } = useAuthStore()
+
+  if (loading) {
+    return <div>Cargando sesión...</div> 
+  }
+
+  return user !== null ? children : <Navigate to="/" />
 }
 
 function AppRoutes() {

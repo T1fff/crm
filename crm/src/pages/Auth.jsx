@@ -1,32 +1,17 @@
 import { Button, Card } from "@nextui-org/react"
 import { Input } from "@nextui-org/react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { FaEnvelope, FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa6"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "../supabaseCliente"
 import { Bounce, toast, ToastContainer } from "react-toastify"
-import useAuthStore from "../authStore"
 
 function Auth() {
   const [isVisible, setIsVisible] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
-  const setAuthData = useAuthStore((state) => state.setAuthData)
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setAuthData(session)
-    })
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setAuthData(session)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [setAuthData])
 
   const handleLogin = async (event) => {
     event.preventDefault() // Evita el comportamiento por defecto del formulario

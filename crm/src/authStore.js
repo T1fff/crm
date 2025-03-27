@@ -3,15 +3,17 @@ import { create } from "zustand"
 const useAuthStore = create((set) => ({
   user: null,
   signOut: null,
-  isAuthenticated: !!localStorage.getItem("user"),
+  loading: true, // Nuevo estado de carga
+
   setAuthData: (user, signOut) => {
-    localStorage.setItem("user", JSON.stringify(user))
-    set({ user, signOut, isAuthenticated: true })
+    set({ user, signOut, loading: false })
   },
+
   clearAuthData: () => {
-    localStorage.removeItem("user")
-    set({ user: null, signOut: null, isAuthenticated: false })
+    set({ user: null, signOut: null, loading: false })
   },
+
+  setLoading: (loading) => set({ loading }),
 }))
 
 export default useAuthStore

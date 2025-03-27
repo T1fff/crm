@@ -121,7 +121,7 @@ export const saveFinanciero = async (financieraData, cliente_id) => {
 
 export const saveViabilidad = async (viabilidadData, cliente_id) => {
   let response
-
+  console.log(viabilidadData);
   if (cliente_id) {
     response = await supabase
       .from("VIABILIDAD")
